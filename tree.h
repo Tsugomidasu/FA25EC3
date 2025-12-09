@@ -24,9 +24,6 @@ using namespace std;
       - vector of children pointers
    4. Students must prevent memory leaks.
    5. Students must create createRoot, addNode, findNode, print functions, etc.
-
-   DO NOT IMPLEMENT ANYTHING HERE.
-   Only placeholders and TODO comments.
 */
 
 
@@ -38,7 +35,10 @@ public:
     vector<Node<U>*> children;
 
     // TODO: Write constructor
-    // Node(const string &nodeID, const U &value);
+    Node(const string &nodeID, const U &value) {
+    id = nodeID;
+    data = value;
+    }
 };
 
 template <typename T>
@@ -47,8 +47,10 @@ private:
     Node<T>* root;
 
 public:
-    Tree();
+    Tree() {
     // TODO: Initialize root pointer to nullptr
+        root = nullptr;
+    }
 
     void createRoot(const string &id, const T &value);
     // TODO: Allocate memory, assign id, assign data, set as root
