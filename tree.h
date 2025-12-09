@@ -52,8 +52,16 @@ public:
         root = nullptr;
     }
 
-    void createRoot(const string &id, const T &value);
+    void createRoot(const string &id, const T &value) {
     // TODO: Allocate memory, assign id, assign data, set as root
+    // Check if root already exists
+    if (root != nullptr) {
+        return;
+    }
+
+    // Create new node and set as root
+    root = new Node<T>(id, value);
+}
 
     void addNode(const string &parentID, const string &childID, const T &value);
     // TODO: Find parent, create child, link parent to child

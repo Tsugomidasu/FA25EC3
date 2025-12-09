@@ -22,10 +22,31 @@ Both constructors compile and initialize objects correctly.
 
 ## Entry 2
 **Date**
+12/9/25
+
+**Tried**
+Implemented createRoot() method.
+
+**Broke**
+Simple return if root exists - will have memory leak if called twice.
+
+**Why**
+Needs a destrcutor to handle clean up
+
+**Fix**
+Return if root already exists - memory management handled in ~Tree().
+
+**Proof**
+createRoot() allocates memory, assigns id/data, and sets root
+
+## Entry 3
+**Date**
 
 **Tried**
 
 **Broke**
+
+**Why**
 
 **Fix**
 
