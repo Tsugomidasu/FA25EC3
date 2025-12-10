@@ -107,11 +107,52 @@ public:
     }
 
     void printAll() {
-    // Print entire structure in readable form
-    if (root == nullptr) {
-        cout << "Tree is empty!" << endl;
-        return;
+        // Print entire structure in readable form
+        if (root == nullptr) {
+            cout << "Tree is empty!" << endl;
+            return;
+        }
+
+        vector<Node<T>*> visited;
+        vector<Node<T>*> stack;
+        stack.push_back(root);
+
+        while (!stack.empty()) {
+            Node<T>* current = stack.back();
+            stack.pop_back();
+
+            // Check if already visited to handle shared children
+            bool alreadyVisited = false;
+            for (Node<T>* v : visited) {
+                if (v == current) {
+                    alreadyVisited = true;
+                    break;
+                }
+            }
+
+            if (alreadyVisited) continue;
+
+            visited.push_back(current);
+
+            // Print current node
+            cout << "Node " << current->id << ": " << current->data << endl;
+
+            // Print children
+            if (current->children.empty()) {
+                cout << "  Child -> (none)" << endl;
+            } else {
+                for (Node<T>* child : current->children) {
+                    cout << "  Child -> " << child->id << endl;
+                    stack.push_back(child);
+                }
+            }
+            cout << endl;
+        }
     }
+
+    ~Tree() {
+    // Free all allocated memory
+    if (root == nullptr) return;
 
     vector<Node<T>*> visited;
     vector<Node<T>*> stack;
@@ -121,37 +162,29 @@ public:
         Node<T>* current = stack.back();
         stack.pop_back();
 
-        // Check if already visited to handle shared children
-        bool alreadyVisited = false;
+        // Check if already visited (shared children)
+        bool wasVisited = false;
         for (Node<T>* v : visited) {
             if (v == current) {
-                alreadyVisited = true;
+                visited = true;
                 break;
             }
         }
 
-        if (alreadyVisited) continue;
+        if (wasVisited) continue;
 
         visited.push_back(current);
 
-        // Print current node
-        cout << "Node " << current->id << ": " << current->data << endl;
-
-        // Print children
-        if (current->children.empty()) {
-            cout << "  Child -> (none)" << endl;
-        } else {
-            for (Node<T>* child : current->children) {
-                cout << "  Child -> " << child->id << endl;
-                stack.push_back(child);
-            }
+        // Add children to stack
+        for (Node<T>* child : current->children) {
+            stack.push_back(child);
         }
-        cout << endl;
+
+        // Delete current node
+        delete current;
     }
 }
 
-    ~Tree();
-    // TODO: Free all allocated memory
 };
 
 #endif //FA25EC3_TREE_H

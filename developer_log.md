@@ -77,3 +77,20 @@ Added endl after printing each child link in the loop
 
 **Proof**
 After fixing, the same test produces properly formatted output. Each child now appears on its own line with consistent indentation.
+
+## Entry 5
+**Date**
+12/0/25
+
+**Tried**
+Implemented destructor in ~Tree() to all dynamically allocated memory.
+
+**Broke**
+Initial implementation caused segmentation faults when running the program. When I created a tree with shared children and the program ended, it broke during cleanup.
+**Why**
+The destructor was trying to delete the same memory address (node "4") twice because it was reached from both parent "2" and parent "3" during the DFS cleanup. This caused a double-free error which leads to undefined behavior and crashes.
+**Fix**
+Added a visited vector to track which nodes have already been deleted. Before processing each node, I check if its pointer is already in the visited list. If yes, I skip deleting it but still push its children onto the stack to continue the cleanup traversal.
+
+**Proof**
+Test program runs without breaking. The tree with shared children cleans up properly.
