@@ -58,3 +58,22 @@ Modified addNode() to first search for existing nodes with the same ID using fin
 
 **Proof**
 After the fix, multiple calls to addNode() with the same child ID result in only one Node object being created.
+
+## Entry 4
+**Date**
+12/9/25
+
+**Tried**
+Implemented printAll() method to display the entire tree structure.
+
+**Broke**
+When testing with a tree that had a node with many children, the output formatting became misaligned and showed all children on one line instead of separate lines. 
+
+**Why**
+I forgot to add endl after printing each child link. The children were being printed in a loop without line breaks, causing all child references to appear on the same line, which made the output hard to read.
+
+**Fix**
+Added endl after printing each child link in the loop
+
+**Proof**
+After fixing, the same test produces properly formatted output. Each child now appears on its own line with consistent indentation.

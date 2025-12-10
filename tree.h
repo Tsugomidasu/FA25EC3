@@ -34,7 +34,7 @@ public:
     U data;
     vector<Node<U>*> children;
 
-    // TODO: Write constructor
+    // Constructor
     Node(const string &nodeID, const U &value) {
     id = nodeID;
     data = value;
@@ -48,32 +48,30 @@ private:
 
 public:
     Tree() {
-    // TODO: Initialize root pointer to nullptr
+        // Initialize root pointer to nullptr
         root = nullptr;
     }
 
     void createRoot(const string &id, const T &value) {
-    // TODO: Allocate memory, assign id, assign data, set as root
-    // Check if root already exists
-    if (root != nullptr) {
-        return;
+        // Allocate memory, assign id, assign data, set as root
+        // Check if root already exists
+        if (root != nullptr) {
+            return;
+        }
+
+        // Create new node and set as root
+        root = new Node<T>(id, value);
     }
 
-    // Create new node and set as root
-    root = new Node<T>(id, value);
-}
-
     void addNode(const string &parentID, const string &childID, const T &value) {
-    // TODO: Find parent, create child, link parent to child
         // Find parent node
         Node<T>* parent = findNode(parentID);
         if (parent == nullptr) {
             return;
         }
-        // Check if child exists
+        // Check if child exists (Supports repeated children under multiple parents
         Node<T>* child = findNode(childID);
         if (child != nullptr) {
-    // TODO: Support repeated children under multiple parents
             // Link to existing child
             parent->children.push_back(child);
         } else {
@@ -84,7 +82,7 @@ public:
     }
 
     Node<T>* findNode(const string &id) {
-    // TODO: Use DFS or BFS to search tree
+        // Use DFS or BFS to search tree
         if (root == nullptr) return nullptr;
 
         // DFS Stack
@@ -108,8 +106,49 @@ public:
         return nullptr;
     }
 
-    void printAll();
-    // TODO: Print entire structure in readable form
+    void printAll() {
+    // Print entire structure in readable form
+    if (root == nullptr) {
+        cout << "Tree is empty!" << endl;
+        return;
+    }
+
+    vector<Node<T>*> visited;
+    vector<Node<T>*> stack;
+    stack.push_back(root);
+
+    while (!stack.empty()) {
+        Node<T>* current = stack.back();
+        stack.pop_back();
+
+        // Check if already visited to handle shared children
+        bool alreadyVisited = false;
+        for (Node<T>* v : visited) {
+            if (v == current) {
+                alreadyVisited = true;
+                break;
+            }
+        }
+
+        if (alreadyVisited) continue;
+
+        visited.push_back(current);
+
+        // Print current node
+        cout << "Node " << current->id << ": " << current->data << endl;
+
+        // Print children
+        if (current->children.empty()) {
+            cout << "  Child -> (none)" << endl;
+        } else {
+            for (Node<T>* child : current->children) {
+                cout << "  Child -> " << child->id << endl;
+                stack.push_back(child);
+            }
+        }
+        cout << endl;
+    }
+}
 
     ~Tree();
     // TODO: Free all allocated memory
