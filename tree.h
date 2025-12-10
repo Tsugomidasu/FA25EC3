@@ -166,7 +166,7 @@ public:
         bool wasVisited = false;
         for (Node<T>* v : visited) {
             if (v == current) {
-                visited = true;
+                wasVisited = true;
                 break;
             }
         }

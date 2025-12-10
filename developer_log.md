@@ -80,17 +80,44 @@ After fixing, the same test produces properly formatted output. Each child now a
 
 ## Entry 5
 **Date**
-12/0/25
+12/10/25
 
 **Tried**
 Implemented destructor in ~Tree() to all dynamically allocated memory.
 
 **Broke**
 Initial implementation caused segmentation faults when running the program. When I created a tree with shared children and the program ended, it broke during cleanup.
+
 **Why**
 The destructor was trying to delete the same memory address (node "4") twice because it was reached from both parent "2" and parent "3" during the DFS cleanup. This caused a double-free error which leads to undefined behavior and crashes.
+
 **Fix**
 Added a visited vector to track which nodes have already been deleted. Before processing each node, I check if its pointer is already in the visited list. If yes, I skip deleting it but still push its children onto the stack to continue the cleanup traversal.
 
 **Proof**
 Test program runs without breaking. The tree with shared children cleans up properly.
+
+## Entry 5
+**Date**
+12/10/25
+
+**Tried**
+Updated main.cpp to build the tree from parsed story nodes using nested loops to connect parent nodes to their children.
+Modified the code to use a test story file instead of calling OpenAI API and added printAll() call to display tree structure (For testing).
+Made a key and works too.
+
+**Broke**
+Multiple issues: 
+1) Compilation error in destructor with variable name conflict (visited vector vs visited boolean). 
+2) Tree building had logical issue when nodes appeared out of order in the story file. 
+3) Output showed nodes in non-intuitive DFS order (1, 3, 5, 6, 4, 2) instead of hierarchical order.
+4) Extra spacing in output "Node 1: You stand..." with two spaces.
+
+**Why**
+Variable naming conflict caused compilation error. The tree building approach processes all parent-child connections but depends on findNode() which only finds nodes already in the tree. The printAll() method uses stack-based DFS with LIFO order. Extra space comes from text parsing storing text with leading space.
+
+**Fix**
+Fixed compilation error by renaming boolean variable. For tree building, realized the current approach works because we create root first and only add children for parents that exist. For display order, accepted DFS traversal as functionally correct. For spacing issue, the text includes leading space from parsing "TEXT: You stand..." where there's a space after the colon.
+
+**Proof**
+Code compiles successfully without errors. Tree builds from test story with all 6 nodes and correct connections verified in output. printAll() shows complete structure: Node1 connects to 2,3; Node2 to 4; Node3 to 4,5; Node4 to 6; Node5 to 6.
