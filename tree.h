@@ -63,12 +63,50 @@ public:
     root = new Node<T>(id, value);
 }
 
-    void addNode(const string &parentID, const string &childID, const T &value);
+    void addNode(const string &parentID, const string &childID, const T &value) {
     // TODO: Find parent, create child, link parent to child
+        // Find parent node
+        Node<T>* parent = findNode(parentID);
+        if (parent == nullptr) {
+            return;
+        }
+        // Check if child exists
+        Node<T>* child = findNode(childID);
+        if (child != nullptr) {
     // TODO: Support repeated children under multiple parents
+            // Link to existing child
+            parent->children.push_back(child);
+        } else {
+            // Create new child node
+            Node<T>* newChild = new Node<T>(childID, value);
+            parent->children.push_back(newChild);
+        }
+    }
 
-    Node<T>* findNode(const string &id);
+    Node<T>* findNode(const string &id) {
     // TODO: Use DFS or BFS to search tree
+        if (root == nullptr) return nullptr;
+
+        // DFS Stack
+        vector<Node<T>*> stack;
+        stack.push_back(root);
+
+        while (!stack.empty()) {
+            Node<T>* current = stack.back();
+            stack.pop_back();
+
+            if (current->id == id) {
+                return current;
+            }
+
+            // Add children to stack
+            for (Node<T>* child : current->children) {
+                stack.push_back(child);
+            }
+        }
+
+        return nullptr;
+    }
 
     void printAll();
     // TODO: Print entire structure in readable form
