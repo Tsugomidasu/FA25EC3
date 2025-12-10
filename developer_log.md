@@ -11,7 +11,7 @@ Implemented constructors for Node() and Tree() classes.
 None - Proper Testing isn't integrated yet. Probably won't until the tree is done.
 
 **Why**
-Can't do any testing yet. (Have to use a simple test program spea)
+Can't do any testing yet. (Have to use a simple test program separately)
 
 **Fix**
 N/A
@@ -97,7 +97,7 @@ Added a visited vector to track which nodes have already been deleted. Before pr
 **Proof**
 Test program runs without breaking. The tree with shared children cleans up properly.
 
-## Entry 5
+## Entry 6
 **Date**
 12/10/25
 
@@ -121,3 +121,22 @@ Fixed compilation error by renaming boolean variable. For tree building, realize
 
 **Proof**
 Code compiles successfully without errors. Tree builds from test story with all 6 nodes and correct connections verified in output. printAll() shows complete structure: Node1 connects to 2,3; Node2 to 4; Node3 to 4,5; Node4 to 6; Node5 to 6.
+
+## Entry 7
+
+**Date**
+12/10/25
+
+**Tried**
+Implemented the playGame() method. Method starts at the root node, displays text, shows numbered options, accepts user input, navigates through child nodes, and prints ending messages when reaching nodes without children.
+
+**Broke**
+During testing, the OpenAI API wasn't producing stories in the structured format needed for gameplay. The API responses didn't include the multiple nodes with child connections required to test the interactive navigation features properly.
+**Why**
+The gameplay functionality requires a tree structure with branching paths to demonstrate user choice and navigation. Without properly formatted multi-node stories from the API, I couldn't verify if playGame() correctly handled transitions between nodes or presented meaningful choices to the user.
+
+**Fix**
+Modified the runCurlToOpenAI function to use a hard-coded 6-node adventure story instead of calling the API. This provided consistent test data with clear parent-child relationships that allowed comprehensive testing of the gameplay mechanics.
+
+**Proof**
+Testing with the hard-coded story confirmed playGame() works correctly. The game starts at node 1, presents two choices leading to different paths, allows navigation through all six nodes, and properly ends when reaching node 6 which has no children.

@@ -53,6 +53,18 @@ string runCurlToOpenAI(const string &apiKey) {
     cout << "Fetching story from OpenAI..." << endl;
     system(command.c_str());
     return "story.txt";
+
+    // ofstream testFile("story.txt");
+    // testFile << "[1] TEXT: You stand in a forest clearing. NEXT: 2, 3\n";
+    // testFile << "[2] TEXT: You follow a narrow path. NEXT: 4\n";
+    // testFile << "[3] TEXT: You enter a dark cave. NEXT: 4, 5\n";
+    // testFile << "[4] TEXT: You find an abandoned hut. NEXT: 6\n";
+    // testFile << "[5] TEXT: A river blocks your way. NEXT: 6\n";
+    // testFile << "[6] TEXT: You reach the ancient city. NEXT:\n";
+    // testFile.close();
+
+    // cout << "Using test story for gameplay testing." << endl;
+    // return "story.txt";
 }
 
 // Step 2. Parse the story file
@@ -143,7 +155,7 @@ int main() {
             }
         }
     }
-    // TODO: Students, implement a method in Tree<T> called playGame()
+    // Students, implement a method in Tree<T> called playGame()
     // This method should:
     // 1. Start at the root node.
     // 2. Display the current node's text.
@@ -156,10 +168,9 @@ int main() {
     // adventureTree.playGame();
 
     cout << "Story loaded into your dynamic tree structure." << endl;
-    cout << "Implement the Tree class to enable traversal and printing." << endl;
     adventureTree.printAll();
 
-    // TODO: Once implemented, uncomment to allow full gameplay.
-    // adventureTree.playGame();
+    // Once implemented, uncomment to allow full gameplay.
+    adventureTree.playGame();
     return 0;
 }

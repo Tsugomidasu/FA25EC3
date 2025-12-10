@@ -150,6 +150,55 @@ public:
         }
     }
 
+    void playGame() {
+        // 1. Start at the root node.
+        if (root == nullptr) {
+            cout << "Game cannot start - tree is empty!" << endl;
+            return;
+        }
+
+        cout << "\n===== Begin Adventure =====\n" << endl;
+
+        Node<T>* current = root;
+
+        while (current != nullptr) {
+            // 2. Display the current node's text.
+            cout << current->data << endl;
+
+            // Check if reached an ending
+            // 5. Move to the selected child and continue until a node has no children.
+            if (current->children.empty()) {
+                // 6. Print an ending message.
+                cout << "\n=== The End ===" << endl;
+                cout << "Your adventure concludes here." << endl;
+                break;
+            }
+
+            // 3. Display numbered options for each child.
+            cout << "\nChoose your next action:" << endl;
+            for (size_t i = 0; i < current->children.size(); i++) {
+                cout << "  " << (i + 1) << ". Continue to path " << (i + 1) << endl;
+            }
+
+            // 4. Ask the user which path to take.
+            cout << "\nEnter choice (1-" << current->children.size() << "): ";
+            int choice;
+            cin >> choice;
+
+            // Validate input
+            if (choice < 1 || choice > static_cast<int>(current->children.size())) {
+                cout << "Invalid choice! Please try again." << endl;
+                continue;
+            }
+
+            // 5. Move to the selected child and continue until a node has no children.
+            current = current->children[choice - 1];
+            cout << endl;
+        }
+
+        cout << "\n===== Adventure Complete =====\n" << endl;
+    }
+
     ~Tree() {
     // Free all allocated memory
     if (root == nullptr) return;
